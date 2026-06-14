@@ -117,6 +117,14 @@ concept ─▶ identity ─▶ silhouette ─▶ glyph grid ─▶ states ─▶
                                                                   PNG · GIF · MP4
 ```
 
+## Demo
+
+Four mascots, one skill — the very `.mp4` output this tool produces, playing inline:
+
+<video src="https://raw.githubusercontent.com/ahkamboh/mascot-maker/main/assets/demo.mp4" width="640" controls muted autoplay loop playsinline></video>
+
+<sub>If the player doesn't load on your client, <a href="assets/demo.mp4">open <code>assets/demo.mp4</code></a> — the previews at the top are GIFs.</sub>
+
 ## What's inside
 
 ```
@@ -134,7 +142,7 @@ references/                  design process · block technique · animation ·
                              rendering · brand-mascot playbook
 install/                     per-agent install guides
 branding/                    social-preview + square-logo source (→ assets/)
-assets/                      rendered samples (png · gif · mp4) + logo & social card
+assets/                      rendered samples + logo, favicon.ico, social card & demo reel
 ```
 
 ## Design rules (the short version)
