@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Mascot</title>
+<!-- =====================================================================
+     mascot-maker starter template.
+     1. Replace BRAND COLORS below.
+     2. Replace the `poses` with your block-character art.
+     3. Adjust the `sequence` (and set --duration = sum of all ms).
+     4. Render:  node scripts/render.mjs --input my-mascot.html \
+                   --name my-mascot --selector ".stage" --duration <SUM>
+     Only use Unicode Block Elements (U+2580–U+259F):  █ ▀ ▄ ▌ ▐ ▖ ▗ ▘ ▝ ▙ ▚ ▛ ▜ ▞ ▟
+====================================================================== -->
+<style>
+  :root {
+    --brand:    #D2563A;   /* primary mascot color   */
+    --accent:   #F2F0E5;   /* secondary / wordmark   */
+    --bg-core:  #1a1a1a;   /* center of the backdrop */
+    --bg-edge:  #000000;   /* edge of the backdrop   */
+  }
+  html, body { margin: 0; background: var(--bg-edge); font-family: monospace; overflow: hidden; }
+  .stage {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at 50% 40%, var(--bg-core) 0%, var(--bg-edge) 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #mascot {
+    font-size: 80px;            /* TUNE THIS: 48–88px works; test-render! */
+    line-height: 1.0;
+    white-space: pre;           /* required so columns line up */
+    color: var(--brand);
+    text-align: center;
+    user-select: none;
+    text-shadow: 0 0 28px rgba(210,86,49,0.5);   /* glow in brand color */
+    transition: transform 0.18s ease;
+  }
+  #label {
+    margin-top: 44px;
+    color: #5a5a5a;
+    font-size: 18px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="mascot"></div>
+  <div id="label">my mascot</div>
+</div>
+<script>
+// ---- IDENTITY (edit me) --------------------------------------------------
+// Name:        My Mascot
+// Soul:        <one sentence of personality, e.g. "a curious one-eyed orb">
+// Silhouette:  <orb / drop / arrow / flame / fox / robot — make it distinct>
+
+// ---- POSES: same rows every time, change ONE feature per state -----------
+const poses = {
+  default:     { r1: " ▄▄▄ ", r2: "▐█ █▌", r3: " ▀▀▀ " }, // calm
+  blink:       { r1: " ▄▄▄ ", r2: "▐███▌", r3: " ▀▀▀ " }, // closed
+  "look-left": { r1: " ▄▄▄ ", r2: "▐ ██▌", r3: " ▀▀▀ " }, // eye left
+  "look-right":{ r1: " ▄▄▄ ", r2: "▐██ ▌", r3: " ▀▀▀ " }, // eye right
+  excited:     { r1: " ▄▄▄ ", r2: "▐   ▌", r3: " ▀▀▀ " }, // wide
+};
+
+const el = document.getElementById("mascot");
+function render(poseName, bob) {
+  const p = poses[poseName];
+  el.textContent = p.r1 + "\n" + p.r2 + "\n" + p.r3;
+  el.style.transform = `translateY(${bob}px)`;
+}
+
+// ---- SEQUENCE: sum of ms = your --duration (clean loop) ------------------
+const sequence = [
+  { pose: "default",    bob: 0,   ms: 900 },
+  { pose: "blink",      bob: 0,   ms: 120 },
+  { pose: "default",    bob: 0,   ms: 500 },
+  { pose: "look-left",  bob: -2,  ms: 600 },
+  { pose: "look-right", bob: -2,  ms: 600 },
+  { pose: "default",    bob: 0,   ms: 400 },
+  { pose: "blink",      bob: 0,   ms: 120 },
+  { pose: "excited",    bob: -8,  ms: 360 },
+  { pose: "excited",    bob: -12, ms: 360 },
+  { pose: "default",    bob: 0,   ms: 720 },
+];   // total = 4680ms  ->  --duration 4680
+
+let step = 0;
+function animate() {
+  const s = sequence[step % sequence.length];
+  render(s.pose, s.bob);
+  step++;
+  setTimeout(animate, s.ms);
+}
+animate();
+</script>
+</body>
+</html>

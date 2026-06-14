@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Clawd — the default Claude Code mascot</title>
+<style>
+  /* ---- mascot-maker example: Clawd ------------------------------------
+     The default Claude Code mascot, built from Unicode Block Element
+     characters. This is the reference build every custom mascot is
+     measured against: one blocky robot, four poses, a looping idle.
+     Brand: Claude terracotta (#ca4b15) on Solarized-dark (#012b36).
+  --------------------------------------------------------------------- */
+  html, body { margin: 0; background: #012b36; font-family: monospace; overflow: hidden; }
+  .stage {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at 50% 42%, #073642 0%, #012b36 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #mascot {
+    font-size: 72px;
+    line-height: 1.0;
+    white-space: pre;
+    color: #ca4b15;
+    text-align: center;
+    user-select: none;
+    text-shadow: 0 0 26px rgba(202,75,21,0.45);
+    transition: transform 0.18s ease;
+  }
+  #label {
+    margin-top: 40px;
+    color: #586e75;
+    font-size: 18px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="mascot"></div>
+  <div id="label">clawd</div>
+</div>
+<script>
+// Clawd's four poses. Built purely from Block Elements (U+2580–U+259F)
+// so every glyph tiles seamlessly into the next — no gaps, no seams.
+const poses = {
+  default:     { r1L: " ▐", r1E: "▛███▜", r1R: "▌", r2L: "▝▜", r2R: "▛▘" },
+  "look-left": { r1L: " ▐", r1E: "▟███▟", r1R: "▌", r2L: "▝▜", r2R: "▛▘" },
+  "look-right":{ r1L: " ▐", r1E: "▙███▙", r1R: "▌", r2L: "▝▜", r2R: "▛▘" },
+  "arms-up":   { r1L: "▗▟", r1E: "▛███▜", r1R: "▙▖", r2L: " ▜", r2R: "▛ " },
+};
+const center = "█████";
+const feetDown = "  ▘▘ ▝▝  ";
+const feetJump = " ▘▘   ▝▝ ";
+
+const el = document.getElementById("mascot");
+function render(poseName, feet, bob) {
+  const p = poses[poseName];
+  el.textContent = (p.r1L + p.r1E + p.r1R) + "\n" + (p.r2L + center + p.r2R) + "\n" + feet;
+  el.style.transform = `translateY(${bob}px)`;
+}
+
+// One looping idle sequence — total period 5000ms (set --duration 5000).
+const sequence = [
+  { pose: "default",    feet: feetDown, bob: 0,  ms: 800 },
+  { pose: "look-left",  feet: feetDown, bob: -3, ms: 500 },
+  { pose: "default",    feet: feetDown, bob: 0,  ms: 300 },
+  { pose: "look-right", feet: feetDown, bob: -3, ms: 500 },
+  { pose: "default",    feet: feetDown, bob: 0,  ms: 300 },
+  { pose: "arms-up",    feet: feetJump, bob: -10,ms: 600 },
+  { pose: "arms-up",    feet: feetJump, bob: -14,ms: 600 },
+  { pose: "default",    feet: feetDown, bob: 0,  ms: 700 },
+  { pose: "look-left",  feet: feetDown, bob: -3, ms: 400 },
+  { pose: "default",    feet: feetDown, bob: 0,  ms: 300 },
+];
+
+let step = 0;
+function animate() {
+  const s = sequence[step % sequence.length];
+  render(s.pose, s.feet, s.bob);
+  step++;
+  setTimeout(animate, s.ms);
+}
+animate();
+</script>
+</body>
+</html>

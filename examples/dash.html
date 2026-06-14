@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dash — a rocket mascot (third silhouette)</title>
+<style>
+  /* ---- mascot-maker example: Dash -------------------------------------
+     A third silhouette to prove range: not a creature at all, but an
+     OBJECT — a little rocket. Where Clawd emotes with arms and Xo emotes
+     with an eye, Dash emotes with THRUST: the exhaust flickers on idle and
+     blasts on the "launch" payoff. Same medium (Block Elements), totally
+     different body + animation channel.
+     Brand: terracotta (#D2563A) on black — swap to your own.
+  --------------------------------------------------------------------- */
+  html, body { margin: 0; background: #000; font-family: monospace; overflow: hidden; }
+  .stage {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at 50% 40%, #1a1a1a 0%, #000 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #mascot {
+    font-size: 80px;
+    line-height: 1.0;
+    white-space: pre;
+    color: #D2563A;
+    text-align: center;
+    user-select: none;
+    text-shadow: 0 0 30px rgba(210,86,49,0.55);
+    transition: transform 0.14s ease;
+  }
+  /* the exhaust gets its own warmer color + flicker glow */
+  #mascot .flame { color: #F2A03A; text-shadow: 0 0 26px rgba(242,160,58,0.8); }
+  #label {
+    margin-top: 44px;
+    color: #5a5a5a;
+    font-size: 18px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="mascot"></div>
+  <div id="label">dash</div>
+</div>
+<script>
+// Dash's body never changes; the EXHAUST is the actor. The body is built
+// from Block Elements; the exhaust row swaps between sizes to read as thrust.
+const BODY =
+  " ▟▙ \n" +
+  "▟██▙\n" +
+  "▐██▌\n" +
+  "▝▙▟▘\n";
+
+const exhaust = {
+  none:  "    ",
+  puff:  " ▘▝ ",
+  burn:  " ██ ",
+  blast: "▗██▖",
+};
+
+const el = document.getElementById("mascot");
+function render(exKey, bob) {
+  // exhaust is wrapped in a span so it can glow in its own color
+  el.innerHTML = BODY + '<span class="flame">' + exhaust[exKey] + "</span>";
+  el.style.transform = `translateY(${bob}px)`;
+}
+
+// Looping: idle hover with a flickering puff, then a "launch" blast (the
+// payoff — map this to your product's ship/deploy/done action). Total 4200ms.
+const sequence = [
+  { ex: "puff",  bob: 0,   ms: 500 },
+  { ex: "none",  bob: 2,   ms: 220 },
+  { ex: "puff",  bob: 0,   ms: 500 },
+  { ex: "burn",  bob: -2,  ms: 300 },
+  { ex: "puff",  bob: 0,   ms: 480 },
+  { ex: "burn",  bob: -6,  ms: 260 },
+  { ex: "blast", bob: -14, ms: 300 },  // LAUNCH
+  { ex: "blast", bob: -20, ms: 300 },  // climb
+  { ex: "burn",  bob: -8,  ms: 320 },  // settle
+  { ex: "puff",  bob: 0,   ms: 520 },
+];   // total = 4200ms  ->  --duration 4200
+
+let step = 0;
+function animate() {
+  const s = sequence[step % sequence.length];
+  render(s.ex, s.bob);
+  step++;
+  setTimeout(animate, s.ms);
+}
+animate();
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Xo — a custom brand mascot (case study)</title>
+<style>
+  /* ---- mascot-maker example: Xo ---------------------------------------
+     A custom brand mascot built with the SAME medium as Clawd, but a
+     deliberately DIFFERENT silhouette: one compact rounded orb with a
+     single eye-window — not a limbed robot. This is the worked example
+     of "design your own": concept -> identity -> shape -> states -> loop.
+     Brand: Xotion terracotta (#D2563A) + cream (#F2F0E5) on black.
+  --------------------------------------------------------------------- */
+  html, body { margin: 0; background: #000; font-family: monospace; overflow: hidden; }
+  .stage {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at 50% 40%, #1a1a1a 0%, #000 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #mascot {
+    font-size: 88px;
+    line-height: 1.0;
+    white-space: pre;
+    color: #D2563A;
+    text-align: center;
+    user-select: none;
+    text-shadow: 0 0 30px rgba(210,86,49,0.55);
+    transition: transform 0.18s ease;
+  }
+  #label {
+    margin-top: 44px;
+    color: #5a5a5a;
+    font-size: 18px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="mascot"></div>
+  <div id="label">xo</div>
+</div>
+<script>
+// Xo's expression set. One rounded shape; the eye-window is the actor.
+// Idle, blink (closed), look (shifted gap), and excited (wide) — every
+// glyph is a Block Element so the orb stays seamless at any state.
+const poses = {
+  default:     { r1: " ▄▄▄ ", r2: "▐█ █▌", r3: " ▀▀▀ " }, // calm, centered eye
+  blink:       { r1: " ▄▄▄ ", r2: "▐███▌", r3: " ▀▀▀ " }, // closed
+  "look-left": { r1: " ▄▄▄ ", r2: "▐ ██▌", r3: " ▀▀▀ " }, // eye shifted left
+  "look-right":{ r1: " ▄▄▄ ", r2: "▐██ ▌", r3: " ▀▀▀ " }, // eye shifted right
+  excited:     { r1: " ▄▄▄ ", r2: "▐   ▌", r3: " ▀▀▀ " }, // wide open
+};
+
+const el = document.getElementById("mascot");
+function render(poseName, bob) {
+  const p = poses[poseName];
+  el.textContent = p.r1 + "\n" + p.r2 + "\n" + p.r3;
+  el.style.transform = `translateY(${bob}px)`;
+}
+
+// Looping expression idle — total period 4800ms (set --duration 4800).
+const sequence = [
+  { pose: "default",    bob: 0,  ms: 900 },
+  { pose: "blink",      bob: 0,  ms: 120 },
+  { pose: "default",    bob: 0,  ms: 500 },
+  { pose: "look-left",  bob: -2, ms: 600 },
+  { pose: "look-right", bob: -2, ms: 600 },
+  { pose: "default",    bob: 0,  ms: 400 },
+  { pose: "blink",      bob: 0,  ms: 120 },
+  { pose: "excited",    bob: -8, ms: 360 },
+  { pose: "excited",    bob: -12,ms: 360 },
+  { pose: "default",    bob: 0,  ms: 720 },
+];
+
+let step = 0;
+function animate() {
+  const s = sequence[step % sequence.length];
+  render(s.pose, s.bob);
+  step++;
+  setTimeout(animate, s.ms);
+}
+animate();
+</script>
+</body>
+</html>

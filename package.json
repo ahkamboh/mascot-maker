@@ -1,0 +1,47 @@
+{
+  "name": "mascot-maker",
+  "version": "1.0.0",
+  "description": "Design and generate animated mascots from Unicode block characters, exported as PNG, GIF, and MP4. An open-source skill for Claude Code, Codex, Cursor, and any coding agent.",
+  "type": "module",
+  "bin": {
+    "mascot-maker": "scripts/render.mjs"
+  },
+  "scripts": {
+    "render:clawd": "node scripts/render.mjs --input examples/clawd.html --name clawd --selector .stage --duration 5000 --formats png,gif,mp4",
+    "render:xo": "node scripts/render.mjs --input examples/xo.html --name xo --selector .stage --duration 4800 --formats png,gif,mp4",
+    "render:dash": "node scripts/render.mjs --input examples/dash.html --name dash --selector .stage --duration 4200 --hero 6 --formats png,gif,mp4",
+    "postinstall-help": "echo 'Run: npx playwright install chromium  (and ensure ffmpeg is on PATH)'"
+  },
+  "keywords": [
+    "mascot",
+    "claude",
+    "clawd",
+    "unicode",
+    "block-elements",
+    "ascii-art",
+    "animation",
+    "gif",
+    "mp4",
+    "skill",
+    "claude-code",
+    "cursor",
+    "codex",
+    "agent",
+    "branding"
+  ],
+  "license": "MIT",
+  "author": "Ali Hamza Kamboh (@ahkamboh) (https://alihamzakamboh.com)",
+  "contributors": [
+    "Ali Hamza Kamboh (@ahkamboh) (https://github.com/ahkamboh)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahkamboh/mascot-maker"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.0"
+  }
+}
