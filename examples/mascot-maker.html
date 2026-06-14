@@ -76,18 +76,22 @@ function render(poseName, bob) {
   el.classList.toggle("spark", !!p.spark);
 }
 
-// One full loop = 4300ms (set --duration 4300). A calm idle with a single
-// blink, then the "make" beat — crouch, bob up and emit the spark — and a
-// long settle. One blink + one spark per loop keeps it relaxed. Seamless.
+// Why the on-screen timings below sum to ~12.9s but we render with
+// --duration 4300:  headless frame-capture advances the page roughly 3x slower
+// than realtime, so a ~12.9s authored sequence is what lands ONE clean loop
+// inside the 4.3s GIF (the 3x capture slowdown and the 3x playback compression
+// cancel out, so the *played* motion stays snappy). The long calm holds at the
+// start and end keep the loop point seamless if capture speed drifts.
+// One blink + one "make" spark per loop.
 const sequence = [
-  { pose: "default", bob: 0,   ms: 1400 },
-  { pose: "blink",   bob: 0,   ms: 130  },
-  { pose: "default", bob: 0,   ms: 700  },
-  { pose: "default", bob: -2,  ms: 360  },
-  { pose: "make1",   bob: -10, ms: 200  },
-  { pose: "make2",   bob: -14, ms: 240  },
-  { pose: "default", bob: -6,  ms: 260  },
-  { pose: "default", bob: 0,   ms: 1010 },
+  { pose: "default", bob: 0,   ms: 4200 },
+  { pose: "blink",   bob: 0,   ms: 360  },
+  { pose: "default", bob: 0,   ms: 2100 },
+  { pose: "default", bob: -2,  ms: 1080 },
+  { pose: "make1",   bob: -10, ms: 600  },
+  { pose: "make2",   bob: -14, ms: 720  },
+  { pose: "default", bob: -6,  ms: 780  },
+  { pose: "default", bob: 0,   ms: 3060 },
 ];
 
 let step = 0;
