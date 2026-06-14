@@ -10,6 +10,7 @@
     "render:clawd": "node scripts/render.mjs --input examples/clawd.html --name clawd --selector .stage --duration 5000 --formats png,gif,mp4",
     "render:xo": "node scripts/render.mjs --input examples/xo.html --name xo --selector .stage --duration 4800 --formats png,gif,mp4",
     "render:dash": "node scripts/render.mjs --input examples/dash.html --name dash --selector .stage --duration 4200 --hero 6 --formats png,gif,mp4",
+    "render:mascot-maker": "node scripts/render.mjs --input examples/mascot-maker.html --name mascot-maker --selector .stage --duration 4300 --hero 0 --formats png,gif,mp4",
     "postinstall-help": "echo 'Run: npx playwright install chromium  (and ensure ffmpeg is on PATH)'"
   },
   "keywords": [

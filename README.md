@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🦾 mascot-maker
+<img src="assets/mascot-maker.gif" width="200" alt="mascot-maker — the maker-bot mascot"/>
+
+# mascot-maker
 
 **An open-source skill that lets any coding agent design and generate animated mascots — and export them as high-quality PNG, GIF, and MP4.**
 
@@ -117,6 +119,7 @@ templates/stage.html         copy-me starter mascot
 examples/clawd.html          default Claude mascot (limbed robot)
 examples/xo.html             custom brand mascot (one-eyed orb)
 examples/dash.html           object mascot (rocket; animates via exhaust)
+examples/mascot-maker.html   the project's own mascot (maker-bot; antenna spark)
 references/                  design process · block technique · animation ·
                              rendering · brand-mascot playbook
 install/                     per-agent install guides

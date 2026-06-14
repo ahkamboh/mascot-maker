@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>mascot-maker — the project's own mascot</title>
+<style>
+  /* ---- mascot-maker example: Maki, the maker-bot ----------------------
+     The mascot for the project itself. A deliberately DIFFERENT silhouette
+     from Clawd (limbed robot), Xo (one-eyed orb) and Dash (rocket): a
+     compact, rounded SQUARE HEAD — a little maker-bot — that blinks and
+     emits a fresh "pixel-spark" from its antenna every loop. That spark
+     is the whole idea: this is the bot that *makes* mascots out of blocks.
+     Built from Unicode Block Elements only (U+2580-U+259F).
+     Brand: project terracotta (#D2563A) on black, cream wordmark.
+  --------------------------------------------------------------------- */
+  html, body { margin: 0; background: #000; font-family: monospace; overflow: hidden; }
+  .stage {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at 50% 40%, #1a1a1a 0%, #000 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #mascot {
+    font-size: 64px;
+    line-height: 1.0;
+    white-space: pre;
+    color: #D2563A;
+    text-align: center;
+    user-select: none;
+    text-shadow: 0 0 30px rgba(210,86,49,0.55);
+    transition: transform 0.16s ease, text-shadow 0.16s ease;
+  }
+  #mascot.spark { text-shadow: 0 0 34px rgba(245,205,130,0.7), 0 0 14px rgba(242,176,90,0.6); }
+  #label {
+    margin-top: 44px;
+    color: #5a5a5a;
+    font-size: 18px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="mascot"></div>
+  <div id="label">mascot-maker</div>
+</div>
+<script>
+// Maki's expression set. The rounded square head stays put (top row, forehead,
+// bottom row and the two side columns never change); only the antenna spark,
+// the eyes and the mouth move. Every glyph is a Block Element so the head stays
+// seamless at any state.
+//   r0 = antenna / emitted pixel-spark   r3 = eyes
+//   r1 = head top (rounded)              r4 = mouth
+//   r2 = forehead (solid)                r5 = head bottom (rounded)
+const poses = {
+  // calm, eyes open, gentle smile
+  default: { r0: "    ▄    ", r1: "▟███████▙", r2: "█████████", r3: "██ ███ ██", r4: "███▄▄▄███", r5: "▜███████▛", spark: false },
+  // eyes closed
+  blink:   { r0: "    ▄    ", r1: "▟███████▙", r2: "█████████", r3: "█████████", r4: "███▄▄▄███", r5: "▜███████▛", spark: false },
+  // antenna tip energizes — a fresh pixel forming
+  make1:   { r0: "    █    ", r1: "▟███████▙", r2: "█████████", r3: "██ ███ ██", r4: "███▄▄▄███", r5: "▜███████▛", spark: true  },
+  // ...and bursts into a spark — the "making" beat
+  make2:   { r0: "   ▟█▙   ", r1: "▟███████▙", r2: "█████████", r3: "██ ███ ██", r4: "███▄▄▄███", r5: "▜███████▛", spark: true  },
+};
+
+const el = document.getElementById("mascot");
+function render(poseName, bob) {
+  const p = poses[poseName];
+  el.textContent = [p.r0, p.r1, p.r2, p.r3, p.r4, p.r5].join("\n");
+  el.style.transform = `translateY(${bob}px)`;
+  el.classList.toggle("spark", !!p.spark);
+}
+
+// One full loop = 4300ms (set --duration 4300). A calm idle with a single
+// blink, then the "make" beat — crouch, bob up and emit the spark — and a
+// long settle. One blink + one spark per loop keeps it relaxed. Seamless.
+const sequence = [
+  { pose: "default", bob: 0,   ms: 1400 },
+  { pose: "blink",   bob: 0,   ms: 130  },
+  { pose: "default", bob: 0,   ms: 700  },
+  { pose: "default", bob: -2,  ms: 360  },
+  { pose: "make1",   bob: -10, ms: 200  },
+  { pose: "make2",   bob: -14, ms: 240  },
+  { pose: "default", bob: -6,  ms: 260  },
+  { pose: "default", bob: 0,   ms: 1010 },
+];
+
+let step = 0;
+function animate() {
+  const s = sequence[step % sequence.length];
+  render(s.pose, s.bob);
+  step++;
+  setTimeout(animate, s.ms);
+}
+animate();
+</script>
+</body>
+</html>
