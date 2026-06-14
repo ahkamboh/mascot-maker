@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>acme — a brand-recolored maker-bot (case study)</title>
+<style>
+  /* ---- mascot-maker example: Acme --------------------------------------
+     The SAME maker-bot silhouette as examples/mascot-maker.html, restyled
+     for a different brand to prove the point of rule #4: steal the brand's
+     colors + tone, keep your own body. This is the worked result of the
+     README's example prompt: "a mascot for my brand Acme — #22D3EE on
+     #0F172A, a developer tool." Cyan on deep navy, and it winks instead of
+     blinking. Block Elements only (U+2580-U+259F).
+  --------------------------------------------------------------------- */
+  html, body { margin: 0; background: #020617; font-family: monospace; overflow: hidden; }
+  .stage {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at 50% 40%, #0F172A 0%, #020617 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #mascot {
+    font-size: 64px;
+    line-height: 1.0;
+    white-space: pre;
+    color: #22D3EE;
+    text-align: center;
+    user-select: none;
+    text-shadow: 0 0 30px rgba(34,211,238,0.5);
+    transition: transform 0.16s ease, text-shadow 0.16s ease;
+  }
+  #mascot.spark { text-shadow: 0 0 34px rgba(165,243,252,0.8), 0 0 14px rgba(34,211,238,0.65); }
+  #label {
+    margin-top: 44px;
+    color: #475569;
+    font-size: 18px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="mascot"></div>
+  <div id="label">acme</div>
+</div>
+<script>
+// Same head + actors as the maker-bot; only the brand palette changed, and the
+// blink became a one-eyed wink for a bit more personality.
+//   r0 = antenna / emitted pixel-spark   r3 = eyes
+//   r1 = head top (rounded)              r4 = mouth
+//   r2 = forehead (solid)                r5 = head bottom (rounded)
+const poses = {
+  default: { r0: "    ▄    ", r1: "▟███████▙", r2: "█████████", r3: "██ ███ ██", r4: "███▄▄▄███", r5: "▜███████▛", spark: false },
+  // right eye closed — a wink
+  wink:    { r0: "    ▄    ", r1: "▟███████▙", r2: "█████████", r3: "██ ██████", r4: "███▄▄▄███", r5: "▜███████▛", spark: false },
+  make1:   { r0: "    █    ", r1: "▟███████▙", r2: "█████████", r3: "██ ███ ██", r4: "███▄▄▄███", r5: "▜███████▛", spark: true  },
+  make2:   { r0: "   ▟█▙   ", r1: "▟███████▙", r2: "█████████", r3: "██ ███ ██", r4: "███▄▄▄███", r5: "▜███████▛", spark: true  },
+};
+
+const el = document.getElementById("mascot");
+function render(poseName, bob) {
+  const p = poses[poseName];
+  el.textContent = [p.r0, p.r1, p.r2, p.r3, p.r4, p.r5].join("\n");
+  el.style.transform = `translateY(${bob}px)`;
+  el.classList.toggle("spark", !!p.spark);
+}
+
+// Same ~3x-authored pacing as the maker-bot so the capture lands ONE calm loop
+// in a 4.3s GIF (see examples/mascot-maker.html for the why). One wink + one
+// "make" spark per loop.
+const sequence = [
+  { pose: "default", bob: 0,   ms: 4200 },
+  { pose: "wink",    bob: 0,   ms: 460  },
+  { pose: "default", bob: 0,   ms: 2100 },
+  { pose: "default", bob: -2,  ms: 1080 },
+  { pose: "make1",   bob: -10, ms: 600  },
+  { pose: "make2",   bob: -14, ms: 720  },
+  { pose: "default", bob: -6,  ms: 780  },
+  { pose: "default", bob: 0,   ms: 2960 },
+];
+
+let step = 0;
+function animate() {
+  const s = sequence[step % sequence.length];
+  render(s.pose, s.bob);
+  step++;
+  setTimeout(animate, s.ms);
+}
+animate();
+</script>
+</body>
+</html>

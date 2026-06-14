@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>mascot-maker — square logo / favicon</title>
+<!-- Render:  node scripts/render.mjs --input branding/logo.html --name logo
+       --selector .stage --width 640 --height 640 --hero 0 --formats png
+       →  assets/logo.png  (square, no wordmark — use for avatars / favicons). -->
+<style>
+  html, body { margin: 0; background: #000; font-family: monospace; overflow: hidden; }
+  .stage {
+    width: 640px;
+    height: 640px;
+    background: radial-gradient(circle at 50% 46%, #1a1a1a 0%, #000 72%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #bot {
+    font-size: 88px;
+    line-height: 1.0;
+    white-space: pre;
+    color: #D2563A;
+    text-align: center;
+    text-shadow: 0 0 40px rgba(210,86,49,0.55);
+  }
+</style>
+</head>
+<body>
+<div class="stage"><div id="bot"></div></div>
+<script>
+  document.getElementById("bot").textContent = [
+    "    ▄    ",
+    "▟███████▙",
+    "█████████",
+    "██ ███ ██",
+    "███▄▄▄███",
+    "▜███████▛",
+  ].join("\n");
+</script>
+</body>
+</html>

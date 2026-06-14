@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>mascot-maker — social preview (1280×640)</title>
+<!-- Render:  node scripts/render.mjs --input branding/social-preview.html
+       --name social-preview --selector .stage --width 1280 --height 640
+       --hero 0 --formats png   →  assets/social-preview.png
+     Upload it at GitHub → repo Settings → General → Social preview. -->
+<style>
+  html, body { margin: 0; background: #000; font-family: monospace; overflow: hidden; }
+  .stage {
+    width: 1280px;
+    height: 640px;
+    background: radial-gradient(circle at 33% 46%, #1d1410 0%, #120b08 45%, #000 78%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 84px;
+  }
+  #bot {
+    font-size: 82px;
+    line-height: 1.0;
+    white-space: pre;
+    color: #D2563A;
+    text-align: center;
+    text-shadow: 0 0 40px rgba(210,86,49,0.55);
+  }
+  .word { display: flex; flex-direction: column; }
+  .wordmark {
+    color: #F2F0E5;
+    font-size: 92px;
+    font-weight: 700;
+    letter-spacing: -2px;
+    line-height: 1.0;
+  }
+  .wordmark .dash { color: #D2563A; }
+  .tag {
+    margin-top: 22px;
+    color: #b8b0a6;
+    font-size: 30px;
+    letter-spacing: 0.5px;
+  }
+  .formats {
+    margin-top: 30px;
+    color: #D2563A;
+    font-size: 23px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .sub { margin-top: 8px; color: #5a5a5a; font-size: 20px; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="bot"></div>
+  <div class="word">
+    <div class="wordmark">mascot<span class="dash">-</span>maker</div>
+    <div class="tag">Design &amp; render animated mascots with any coding agent.</div>
+    <div class="formats">png · gif · mp4</div>
+    <div class="sub">Unicode block elements · pure HTML + Node + ffmpeg · MIT</div>
+  </div>
+</div>
+<script>
+  document.getElementById("bot").textContent = [
+    "    ▄    ",
+    "▟███████▙",
+    "█████████",
+    "██ ███ ██",
+    "███▄▄▄███",
+    "▜███████▛",
+  ].join("\n");
+</script>
+</body>
+</html>
