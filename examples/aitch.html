@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>aitch — a letter mascot (the letter H)</title>
+<style>
+  /* ---- mascot-maker example: Aitch ------------------------------------
+     A LETTERFORM mascot: the capital letter "H" given a face. Its two
+     vertical posts each hold an eye; the crossbar doubles as a mouth. Proof
+     that the technique works for type/monograms, not just creatures — drop in
+     any letter for an initial or logo. Block Elements only (U+2580-U+259F).
+     Brand: terracotta (#D2563A) on black.
+  --------------------------------------------------------------------- */
+  html, body { margin: 0; background: #000; font-family: monospace; overflow: hidden; }
+  .stage {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at 50% 40%, #1a1a1a 0%, #000 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #mascot {
+    font-size: 60px;
+    line-height: 1.0;
+    white-space: pre;
+    color: #D2563A;
+    text-align: center;
+    user-select: none;
+    text-shadow: 0 0 30px rgba(210,86,49,0.5);
+    transition: transform 0.16s ease;
+  }
+  #label {
+    margin-top: 44px;
+    color: #5a5a5a;
+    font-size: 18px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="mascot"></div>
+  <div id="label">aitch</div>
+</div>
+<script>
+// The letterform never changes (outer rounded corners, crossbar and post
+// columns stay put, eyes stay centered) so the H always reads crisp; character
+// comes from a blink, a little sway, and a hop.
+//   r0 = post tops (rounded)   r3 = crossbar / mouth     r5 = posts
+//   r1 = posts                 r4 = posts                r6 = post feet (rounded)
+//   r2 = eyes (one per post)
+const posts = { r0:"▟██   ██▙", r1:"███   ███", r3:"█████████", r4:"███   ███", r5:"███   ███", r6:"▜██   ██▛" };
+const eyes = {
+  open:  "█ █   █ █",  // centered
+  blink: "███   ███",  // closed
+};
+const el = document.getElementById("mascot");
+function render(look, dx, dy) {
+  el.textContent = [posts.r0, posts.r1, eyes[look], posts.r3, posts.r4, posts.r5, posts.r6].join("\n");
+  el.style.transform = `translate(${dx}px, ${dy}px)`;
+}
+
+// ~3x-authored pacing so headless capture lands ONE calm loop in a 4.3s GIF
+// (see examples/mascot-maker.html for the why). Blink, sway left/right, a hop.
+const sequence = [
+  { look: "open",  dx: 0,   dy: 0,  ms: 3000 },
+  { look: "blink", dx: 0,   dy: 0,  ms: 360  },
+  { look: "open",  dx: 0,   dy: 0,  ms: 1100 },
+  { look: "open",  dx: -10, dy: 0,  ms: 1200 },
+  { look: "open",  dx: 0,   dy: 0,  ms: 700  },
+  { look: "open",  dx: 10,  dy: 0,  ms: 1200 },
+  { look: "open",  dx: 0,   dy: 0,  ms: 1100 },
+  { look: "blink", dx: 0,   dy: 0,  ms: 360  },
+  { look: "open",  dx: 0,   dy: -8, ms: 520  },
+  { look: "open",  dx: 0,   dy: -3, ms: 300  },
+  { look: "open",  dx: 0,   dy: 0,  ms: 3060 },
+];
+
+let step = 0;
+function animate() {
+  const s = sequence[step % sequence.length];
+  render(s.look, s.bob);
+  step++;
+  setTimeout(animate, s.ms);
+}
+animate();
+</script>
+</body>
+</html>
