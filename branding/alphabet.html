@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>mascot-maker — A–Z block alphabet sheet</title>
+<!-- Render:  node scripts/render.mjs --input branding/alphabet.html --name alphabet
+       --selector .stage --width 1140 --height 1180 --scale 1 --hero 0 --formats png
+     A 5x7 Unicode block-element pixel font — drop any glyph into a stage to make
+     a letter/monogram mascot. -->
+<style>
+  html, body { margin: 0; background: #000; font-family: monospace; }
+  .stage {
+    box-sizing: border-box;
+    width: 1100px;
+    height: 1140px;
+    padding: 56px 64px 48px;
+    background: radial-gradient(circle at 50% 38%, #1a1a1a 0%, #000 78%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .title { color: #F2F0E5; font-size: 40px; font-weight: 700; letter-spacing: -1px; }
+  .title .dash { color: #D2563A; }
+  .subtitle { color: #8a8a8a; font-size: 17px; letter-spacing: 4px; text-transform: uppercase; margin-top: 12px; }
+  .grid {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 30px 18px;
+    width: 100%;
+  }
+  .cell { display: flex; flex-direction: column; align-items: center; }
+  .glyph {
+    white-space: pre;
+    line-height: 1.0;
+    font-size: 22px;
+    color: #D2563A;
+    text-shadow: 0 0 16px rgba(210,86,49,0.45);
+  }
+  .lbl { margin-top: 12px; color: #6a6a6a; font-size: 15px; letter-spacing: 2px; }
+  .foot { margin-top: auto; color: #5a5a5a; font-size: 15px; letter-spacing: 3px; }
+  .foot b { color: #D2563A; font-weight: 400; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="title">mascot<span class="dash">-</span>maker · A–Z</div>
+  <div class="subtitle">Unicode block-element alphabet</div>
+  <div class="grid" id="grid"></div>
+  <div class="foot">5×7 block glyphs · drop any letter into a <b>stage</b> for an instant monogram mascot</div>
+</div>
+<script>
+// 5-wide x 7-tall pixel font. '#' -> █ block, '.' -> space.
+const F = {
+  A:["01110","10001","10001","11111","10001","10001","10001"],
+  B:["11110","10001","10001","11110","10001","10001","11110"],
+  C:["01110","10001","10000","10000","10000","10001","01110"],
+  D:["11100","10010","10001","10001","10001","10010","11100"],
+  E:["11111","10000","10000","11110","10000","10000","11111"],
+  F:["11111","10000","10000","11110","10000","10000","10000"],
+  G:["01110","10001","10000","10111","10001","10001","01111"],
+  H:["10001","10001","10001","11111","10001","10001","10001"],
+  I:["11111","00100","00100","00100","00100","00100","11111"],
+  J:["00111","00010","00010","00010","10010","10010","01100"],
+  K:["10001","10010","10100","11000","10100","10010","10001"],
+  L:["10000","10000","10000","10000","10000","10000","11111"],
+  M:["10001","11011","10101","10101","10001","10001","10001"],
+  N:["10001","11001","10101","10101","10011","10001","10001"],
+  O:["01110","10001","10001","10001","10001","10001","01110"],
+  P:["11110","10001","10001","11110","10000","10000","10000"],
+  Q:["01110","10001","10001","10001","10101","10010","01101"],
+  R:["11110","10001","10001","11110","10100","10010","10001"],
+  S:["01111","10000","10000","01110","00001","00001","11110"],
+  T:["11111","00100","00100","00100","00100","00100","00100"],
+  U:["10001","10001","10001","10001","10001","10001","01110"],
+  V:["10001","10001","10001","10001","10001","01010","00100"],
+  W:["10001","10001","10001","10101","10101","11011","10001"],
+  X:["10001","10001","01010","00100","01010","10001","10001"],
+  Y:["10001","10001","01010","00100","00100","00100","00100"],
+  Z:["11111","00001","00010","00100","01000","10000","11111"],
+};
+const grid = document.getElementById("grid");
+for (const ch of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+  const cell = document.createElement("div"); cell.className = "cell";
+  const g = document.createElement("div"); g.className = "glyph";
+  g.textContent = F[ch].map(r => r.replace(/1/g, "█").replace(/0/g, " ")).join("\n");
+  const l = document.createElement("div"); l.className = "lbl"; l.textContent = ch;
+  cell.appendChild(g); cell.appendChild(l); grid.appendChild(cell);
+}
+</script>
+</body>
+</html>

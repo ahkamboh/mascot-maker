@@ -129,6 +129,14 @@ Four mascots, one skill — the very `.mp4` output this tool produces, playing i
 
 <sub>If the player doesn't load on your client, <a href="assets/demo.mp4">open <code>assets/demo.mp4</code></a> — the previews at the top are GIFs.</sub>
 
+## Block alphabet
+
+Need a specific letter or a monogram? Every glyph below is a ready-made 5×7 block
+letterform — drop any one into a `stage` (like [`examples/aitch.html`](examples/aitch.html))
+and give it eyes + a loop.
+
+<p align="center"><img src="assets/alphabet.png" width="640" alt="A–Z Unicode block-element alphabet sheet"/></p>
+
 ## What's inside
 
 ```
@@ -146,8 +154,8 @@ examples/aitch.html          a letterform mascot — the letter "H" (blink · sw
 references/                  design process · block technique · animation ·
                              rendering · brand-mascot playbook
 install/                     per-agent install guides
-branding/                    social-preview + square-logo source (→ assets/)
-assets/                      rendered samples + logo, favicon.ico, social card & demo reel
+branding/                    social-preview, square-logo & A–Z alphabet source (→ assets/)
+assets/                      rendered samples + logo, favicon, social card, demo reel & alphabet
 ```
 
 ## Design rules (the short version)
