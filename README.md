@@ -129,13 +129,14 @@ Four mascots, one skill — the very `.mp4` output this tool produces, playing i
 
 <sub>If the player doesn't load on your client, <a href="assets/demo.mp4">open <code>assets/demo.mp4</code></a> — the previews at the top are GIFs.</sub>
 
-## Block alphabet
+## Block font
 
-Need a specific letter or a monogram? Every glyph below is a ready-made 5×7 block
-letterform — drop any one into a `stage` (like [`examples/aitch.html`](examples/aitch.html))
+Spell anything. The sheet below is a full 5×7 Unicode block font — **A–Z, a–z,
+0–9 and punctuation** — so you can build a letter, a word, a name, or a monogram.
+Drop any glyph into a `stage` (like [`examples/aitch.html`](examples/aitch.html))
 and give it eyes + a loop.
 
-<p align="center"><img src="assets/alphabet.png" width="640" alt="A–Z Unicode block-element alphabet sheet"/></p>
+<p align="center"><img src="assets/alphabet.png" width="680" alt="mascot-maker block font — A–Z, a–z, 0–9, punctuation"/></p>
 
 ## What's inside
 
@@ -154,8 +155,8 @@ examples/aitch.html          a letterform mascot — the letter "H" (blink · sw
 references/                  design process · block technique · animation ·
                              rendering · brand-mascot playbook
 install/                     per-agent install guides
-branding/                    social-preview, square-logo & A–Z alphabet source (→ assets/)
-assets/                      rendered samples + logo, favicon, social card, demo reel & alphabet
+branding/                    social-preview, square-logo & block-font sheet source (→ assets/)
+assets/                      rendered samples + logo, favicon, social card, demo reel & block-font sheet
 ```
 
 ## Design rules (the short version)

@@ -2,56 +2,52 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>mascot-maker — A–Z block alphabet sheet</title>
+<title>mascot-maker — block character set (A–Z · a–z · 0–9)</title>
 <!-- Render:  node scripts/render.mjs --input branding/alphabet.html --name alphabet
-       --selector .stage --width 1140 --height 1180 --scale 1 --hero 0 --formats png
-     A 5x7 Unicode block-element pixel font — drop any glyph into a stage to make
-     a letter/monogram mascot. -->
+       --selector .stage --width 1300 --height 1560 --scale 1 --hero 0 --formats png
+     A 5x7 Unicode block-element font: caps, lowercase, digits, punctuation.
+     Drop any glyph into a stage to make a letter / word / monogram mascot. -->
 <style>
   html, body { margin: 0; background: #000; font-family: monospace; }
   .stage {
     box-sizing: border-box;
-    width: 1100px;
-    height: 1140px;
-    padding: 56px 64px 48px;
-    background: radial-gradient(circle at 50% 38%, #1a1a1a 0%, #000 78%);
+    width: 1260px;
+    height: 1540px;
+    padding: 52px 60px 44px;
+    background: radial-gradient(circle at 50% 32%, #1a1a1a 0%, #000 82%);
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   .title { color: #F2F0E5; font-size: 40px; font-weight: 700; letter-spacing: -1px; }
   .title .dash { color: #D2563A; }
-  .subtitle { color: #8a8a8a; font-size: 17px; letter-spacing: 4px; text-transform: uppercase; margin-top: 12px; }
-  .grid {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 30px 18px;
-    width: 100%;
-  }
+  .subtitle { color: #8a8a8a; font-size: 16px; letter-spacing: 5px; text-transform: uppercase; margin-top: 12px; }
+  .section { width: 100%; margin-top: 34px; }
+  .shead { color: #D2563A; font-size: 15px; letter-spacing: 4px; text-transform: uppercase; margin: 0 0 16px 4px; }
+  .grid { display: grid; grid-template-columns: repeat(13, 1fr); gap: 22px 10px; width: 100%; }
   .cell { display: flex; flex-direction: column; align-items: center; }
   .glyph {
     white-space: pre;
     line-height: 1.0;
-    font-size: 22px;
+    font-size: 20px;
     color: #D2563A;
-    text-shadow: 0 0 16px rgba(210,86,49,0.45);
+    text-shadow: 0 0 14px rgba(210,86,49,0.4);
   }
-  .lbl { margin-top: 12px; color: #6a6a6a; font-size: 15px; letter-spacing: 2px; }
-  .foot { margin-top: auto; color: #5a5a5a; font-size: 15px; letter-spacing: 3px; }
+  .lbl { margin-top: 9px; color: #6a6a6a; font-size: 13px; }
+  .foot { margin-top: auto; padding-top: 20px; color: #5a5a5a; font-size: 14px; letter-spacing: 3px; }
   .foot b { color: #D2563A; font-weight: 400; }
 </style>
 </head>
 <body>
 <div class="stage">
-  <div class="title">mascot<span class="dash">-</span>maker · A–Z</div>
-  <div class="subtitle">Unicode block-element alphabet</div>
-  <div class="grid" id="grid"></div>
-  <div class="foot">5×7 block glyphs · drop any letter into a <b>stage</b> for an instant monogram mascot</div>
+  <div class="title">mascot<span class="dash">-</span>maker · block font</div>
+  <div class="subtitle">5×7 Unicode block character set</div>
+  <div id="sections"></div>
+  <div class="foot">drop any glyph into a <b>stage</b> — spell a word, a name, or a monogram, then give it eyes + a loop</div>
 </div>
 <script>
-// 5-wide x 7-tall pixel font. '#' -> █ block, '.' -> space.
-const F = {
+// 5-wide x 7-tall pixel font. '1' -> █ block, '0' -> space.
+const UP = {
   A:["01110","10001","10001","11111","10001","10001","10001"],
   B:["11110","10001","10001","11110","10001","10001","11110"],
   C:["01110","10001","10000","10000","10000","10001","01110"],
@@ -79,14 +75,74 @@ const F = {
   Y:["10001","10001","01010","00100","00100","00100","00100"],
   Z:["11111","00001","00010","00100","01000","10000","11111"],
 };
-const grid = document.getElementById("grid");
-for (const ch of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
-  const cell = document.createElement("div"); cell.className = "cell";
-  const g = document.createElement("div"); g.className = "glyph";
-  g.textContent = F[ch].map(r => r.replace(/1/g, "█").replace(/0/g, " ")).join("\n");
-  const l = document.createElement("div"); l.className = "lbl"; l.textContent = ch;
-  cell.appendChild(g); cell.appendChild(l); grid.appendChild(cell);
+const LO = {
+  a:["00000","00000","01110","00001","01111","10001","01111"],
+  b:["10000","10000","11110","10001","10001","10001","11110"],
+  c:["00000","00000","01111","10000","10000","10000","01111"],
+  d:["00001","00001","01111","10001","10001","10001","01111"],
+  e:["00000","00000","01110","10001","11111","10000","01110"],
+  f:["00110","01001","01000","11100","01000","01000","01000"],
+  g:["00000","01111","10001","10001","01111","00001","01110"],
+  h:["10000","10000","11110","10001","10001","10001","10001"],
+  i:["00100","00000","01100","00100","00100","00100","01110"],
+  j:["00010","00000","00110","00010","00010","10010","01100"],
+  k:["10000","10000","10010","10100","11000","10100","10010"],
+  l:["01100","00100","00100","00100","00100","00100","01110"],
+  m:["00000","00000","11010","10101","10101","10101","10101"],
+  n:["00000","00000","11110","10001","10001","10001","10001"],
+  o:["00000","00000","01110","10001","10001","10001","01110"],
+  p:["00000","11110","10001","10001","11110","10000","10000"],
+  q:["00000","01111","10001","10001","01111","00001","00001"],
+  r:["00000","00000","10110","11001","10000","10000","10000"],
+  s:["00000","00000","01111","10000","01110","00001","11110"],
+  t:["01000","01000","11100","01000","01000","01001","00110"],
+  u:["00000","00000","10001","10001","10001","10011","01101"],
+  v:["00000","00000","10001","10001","10001","01010","00100"],
+  w:["00000","00000","10001","10001","10101","10101","01010"],
+  x:["00000","00000","10001","01010","00100","01010","10001"],
+  y:["00000","10001","10001","10001","01111","00001","01110"],
+  z:["00000","00000","11111","00010","00100","01000","11111"],
+};
+const DI = {
+  "0":["01110","10001","10011","10101","11001","10001","01110"],
+  "1":["00100","01100","00100","00100","00100","00100","01110"],
+  "2":["01110","10001","00001","00010","00100","01000","11111"],
+  "3":["11111","00010","00100","00010","00001","10001","01110"],
+  "4":["00010","00110","01010","10010","11111","00010","00010"],
+  "5":["11111","10000","11110","00001","00001","10001","01110"],
+  "6":["00110","01000","10000","11110","10001","10001","01110"],
+  "7":["11111","00001","00010","00100","01000","01000","01000"],
+  "8":["01110","10001","10001","01110","10001","10001","01110"],
+  "9":["01110","10001","10001","01111","00001","00010","01100"],
+};
+const PU = {
+  ".":["00000","00000","00000","00000","00000","01100","01100"],
+  ",":["00000","00000","00000","00000","01100","01100","11000"],
+  "!":["00100","00100","00100","00100","00100","00000","00100"],
+  "?":["01110","10001","00001","00010","00100","00000","00100"],
+  "-":["00000","00000","00000","11111","00000","00000","00000"],
+  "+":["00000","00100","00100","11111","00100","00100","00000"],
+  "&":["01100","10010","10010","01100","10101","10010","01101"],
+  "@":["01110","10001","10111","10101","10111","10000","01110"],
+  "#":["01010","01010","11111","01010","11111","01010","01010"],
+};
+const block = rows => rows.map(r => r.replace(/1/g, "█").replace(/0/g, " ")).join("\n");
+function section(title, map) {
+  const sec = document.createElement("div"); sec.className = "section";
+  const h = document.createElement("div"); h.className = "shead"; h.textContent = title; sec.appendChild(h);
+  const grid = document.createElement("div"); grid.className = "grid";
+  for (const ch of Object.keys(map)) {
+    const cell = document.createElement("div"); cell.className = "cell";
+    const g = document.createElement("div"); g.className = "glyph"; g.textContent = block(map[ch]);
+    const l = document.createElement("div"); l.className = "lbl"; l.textContent = ch;
+    cell.appendChild(g); cell.appendChild(l); grid.appendChild(cell);
+  }
+  sec.appendChild(grid); document.getElementById("sections").appendChild(sec);
 }
+section("Uppercase  ·  A – Z", UP);
+section("Lowercase  ·  a – z", LO);
+section("Digits  ·  0 – 9", DI);
+section("Punctuation", PU);
 </script>
 </body>
 </html>

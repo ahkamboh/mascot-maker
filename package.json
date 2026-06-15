@@ -13,7 +13,7 @@
     "render:mascot-maker": "node scripts/render.mjs --input examples/mascot-maker.html --name mascot-maker --selector .stage --duration 4300 --hero 0 --formats png,gif,mp4",
     "render:acme": "node scripts/render.mjs --input examples/acme.html --name acme --selector .stage --duration 4300 --hero 0 --formats png,gif,mp4",
     "render:aitch": "node scripts/render.mjs --input examples/aitch.html --name aitch --selector .stage --duration 4300 --hero 0 --formats png,gif,mp4",
-    "render:alphabet": "node scripts/render.mjs --input branding/alphabet.html --name alphabet --selector .stage --width 1140 --height 1180 --scale 1 --hero 0 --formats png",
+    "render:alphabet": "node scripts/render.mjs --input branding/alphabet.html --name alphabet --selector .stage --width 1300 --height 1560 --scale 1 --hero 0 --formats png",
     "render:brand": "node scripts/render.mjs --input branding/social-preview.html --name social-preview --selector .stage --width 1280 --height 640 --scale 1 --hero 0 --formats png && node scripts/render.mjs --input branding/logo.html --name logo --selector .stage --width 640 --height 640 --scale 1 --hero 0 --formats png",
     "postinstall-help": "echo 'Run: npx playwright install chromium  (and ensure ffmpeg is on PATH)'"
   },
